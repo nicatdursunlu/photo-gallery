@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-app> -->
   <v-container fluid>
     <v-app-bar color="deep-purple accent-4" dark>
       <v-spacer />
@@ -11,7 +10,6 @@
       </v-btn>
     </v-app-bar>
   </v-container>
-  <!-- </v-app> -->
 </template>
 
 <script>

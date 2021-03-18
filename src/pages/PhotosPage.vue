@@ -1,24 +1,37 @@
 <template>
   <v-container>
-    <Photo v-for="(photo, index) in photos" :key="index" />
+    <PhotoForm @addPhoto="addPhoto" />
+    <v-row>
+      <Photo v-for="(photo, index) in photos" :key="index" :photo="photo" />
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import Photo from "../components/photo/Photo";
+import PhotoForm from "../components/photo/PhotoForm";
 
 export default {
   components: {
     Photo,
+    PhotoForm,
   },
   data: () => ({
-    photos: [
-      { id: 1, title: "Photo 1" },
-      { id: 2, title: "Photo 2" },
-      { id: 3, title: "Photo 3" },
-      { id: 4, title: "Photo 4" },
-    ],
+    photos: [],
   }),
+  mounted() {
+    this.fetchTodo();
+  },
+  methods: {
+    fetchTodo() {
+      this.axios
+        .get("https://jsonplaceholder.typicode.com/photos?_limit=10")
+        .then((response) => (this.photos = response.data));
+    },
+    addPhoto(photo) {
+      this.photos.push(photo);
+    },
+  },
 };
 </script>
 
