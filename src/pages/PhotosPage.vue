@@ -3,17 +3,17 @@
     <PhotoForm @addPhoto="addPhoto" />
     <v-row>
       <Photo
-        v-for="(photo, index) in photos"
+        v-for="(photo, index) in $store.getters.getAllPhotos"
         :key="index"
         :photo="photo"
-        @openPhoto="openPhoto"
       />
     </v-row>
-    <PhotoDialog :photo="currentPhoto" v-model="dialogVisible" />
+    <PhotoDialog />
   </v-container>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import Photo from "../components/photo/Photo";
 import PhotoForm from "../components/photo/PhotoForm";
 import PhotoDialog from "../components/photo/PhotoDialog";
@@ -26,24 +26,14 @@ export default {
   },
   data: () => ({
     photos: [],
-    currentPhoto: {},
-    dialogVisible: false,
   }),
   mounted() {
-    this.fetchTodo();
+    this.fetchPhotos();
   },
   methods: {
-    fetchTodo() {
-      this.axios
-        .get("https://jsonplaceholder.typicode.com/photos?_limit=10")
-        .then((response) => (this.photos = response.data));
-    },
+    ...mapActions(["fetchPhotos"]),
     addPhoto(photo) {
       this.photos.unshift(photo);
-    },
-    openPhoto(photo) {
-      this.currentPhoto = photo;
-      this.dialogVisible = true;
     },
   },
 };
